@@ -1,4 +1,4 @@
-package greendislike.services.exception;
+package greendislike.services.exception.type;
 
 public class BankAccountNotFoundException extends RuntimeException {
 
