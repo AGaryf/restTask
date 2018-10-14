@@ -21,28 +21,28 @@ public class BankAccountAdvice {
     @ExceptionHandler(BankAccountNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse bankAccountNotFoundHandler(BankAccountNotFoundException ex) {
-        return new ErrorResponse(ex.getMessage());
+        return new ErrorResponse(HttpStatus.NOT_FOUND.toString(), ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(BankAccountDuplicateException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse bankAccountDuplicateHandler(BankAccountDuplicateException ex) {
-        return new ErrorResponse(ex.getMessage());
+        return new ErrorResponse(HttpStatus.CONFLICT.toString(), ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(BankAccountNotEnoughException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ErrorResponse bankAccountNotEnoughHandler(BankAccountNotEnoughException ex) {
-        return new ErrorResponse(ex.getMessage());
+        return new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED.toString(), ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException .class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse bankAccountNotValidHandler(MethodArgumentNotValidException ex) {
-        return new ErrorResponse(ex.getBindingResult().getFieldError().getField() + ": " +
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), ex.getBindingResult().getFieldError().getField() + ": " +
                 ex.getBindingResult().getFieldError().getDefaultMessage());
     }
 
@@ -55,6 +55,6 @@ public class BankAccountAdvice {
         for (ConstraintViolation<?> violation : violations) {
             strBuilder.append(violation.getMessage());
         }
-        return new ErrorResponse(strBuilder.toString());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), strBuilder.toString());
     }
 }
