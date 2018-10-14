@@ -12,6 +12,6 @@ import javax.validation.constraints.Min;
 public class BankAccountRequest {
 
     @Min(value = 0, message = "The value must be positive")
-    private int balance;
+    private int sum;
 
 }

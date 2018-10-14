@@ -14,10 +14,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+@TestPropertySource(locations="classpath:test.properties")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RestApiTest {
@@ -66,7 +68,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"description\":\"Bank account id should be identified by exactly 5 digits\"}",
+                "{\"code\":\"400\",\"description\":\"Bank account id should be identified by exactly 5 digits\"}",
                 response.getBody());
     }
 
@@ -110,7 +112,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"description\":\"Could not find bank account with id = 12345\"}",
+                "{\"code\":\"404\",\"description\":\"Could not find bank account with id = 12345\"}",
                 response.getBody());
     }
 
@@ -126,7 +128,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"description\":\"Bank account with id = 12345 exist\"}",
+                "{\"code\":\"409\",\"description\":\"Bank account with id = 12345 exist\"}",
                 response.getBody());
     }
 
@@ -161,7 +163,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"bankAccountId\":12345,\"balance\":1000}",
+                "{\"bankAccountId\":12345,\"sum\":1000}",
                 response.getBody());
     }
 
@@ -220,7 +222,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"description\":\"balance: The value must be positive\"}",
+                "{\"code\":\"400\",\"description\":\"sum: The value must be positive\"}",
                 response.getBody());
     }
 
@@ -236,7 +238,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"description\":\"balance: The value must be positive\"}",
+                "{\"code\":\"400\",\"description\":\"sum: The value must be positive\"}",
                 response.getBody());
     }
 
@@ -254,7 +256,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"description\":\"Not enough balance = 500 on bank account with id = 12345\"}",
+                "{\"code\":\"405\",\"description\":\"Not enough balance = 500 on bank account with id = 12345\"}",
                 response.getBody());
     }
 

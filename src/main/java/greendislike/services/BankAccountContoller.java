@@ -50,7 +50,7 @@ public class BankAccountContoller {
         Long id = Long.valueOf(idString);
         return repository.findById(id)
                 .map(bankAccount -> {
-                    bankAccount.setBalance(bankAccount.getBalance() + newBankAccountRequest.getBalance());
+                    bankAccount.setBalance(bankAccount.getBalance() + newBankAccountRequest.getSum());
                     return repository.save(bankAccount);
                 })
                 .orElseThrow(() -> new BankAccountNotFoundException(id));
@@ -63,10 +63,10 @@ public class BankAccountContoller {
         Long id = Long.valueOf(idString);
         return repository.findById(id)
                 .map(bankAccount -> {
-                    if (bankAccount.getBalance() < newBankAccountRequest.getBalance()) {
+                    if (bankAccount.getBalance() < newBankAccountRequest.getSum()) {
                         throw new BankAccountNotEnoughException(bankAccount);
                     }
-                    bankAccount.setBalance(bankAccount.getBalance() - newBankAccountRequest.getBalance());
+                    bankAccount.setBalance(bankAccount.getBalance() - newBankAccountRequest.getSum());
                     return repository.save(bankAccount);
                 })
                 .orElseThrow(() -> new BankAccountNotFoundException(id));
