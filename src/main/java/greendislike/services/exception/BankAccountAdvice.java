@@ -4,6 +4,7 @@ import greendislike.services.exception.type.BankAccountDuplicateException;
 import greendislike.services.exception.type.BankAccountNotEnoughException;
 import greendislike.services.exception.type.BankAccountNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -57,4 +58,12 @@ public class BankAccountAdvice {
         }
         return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), strBuilder.toString());
     }
+
+    @ResponseBody
+    @ExceptionHandler(value = { HttpMediaTypeNotSupportedException.class })
+    @ResponseStatus(value = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    public ErrorResponse handle(HttpMediaTypeNotSupportedException e) {
+        return new ErrorResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE.toString(), e.getMessage());
+    }
+
 }

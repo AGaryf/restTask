@@ -73,21 +73,6 @@ public class RestApiTest {
     }
 
     @Test
-    public void getWrongLengthId() {
-
-    }
-
-    @Test
-    public void putDepositWrongLengthId() {
-
-    }
-
-    @Test
-    public void putWithdrawWrongLengthId() {
-
-    }
-
-    @Test
     public void getBalanceOk() {
 
         bankAccountRepository.save(new BankAccount(12345, 500));
@@ -163,7 +148,7 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"bankAccountId\":12345,\"sum\":1000}",
+                "{\"code\":\"415\",\"description\":\"Content type '' not supported\"}",
                 response.getBody());
     }
 
@@ -172,7 +157,7 @@ public class RestApiTest {
         bankAccountRepository.save(new BankAccount(12345, 500));
 
         MultiValueMap mMap = new LinkedMultiValueMap();
-        mMap.add("balance", "wrongType");
+        mMap.add("sum", "wrongType");
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(mMap);
 
         ResponseEntity<String> response = restTemplate.exchange("/bankaccount/12345/deposit", HttpMethod.PUT,
@@ -183,13 +168,8 @@ public class RestApiTest {
                 response.getStatusCode());
 
         Assert.assertEquals("Server returned invalid response",
-                "{\"bankAccountId\":12345,\"balance\":1000}",
+                "{\"code\":\"415\",\"description\":\"Content type '' not supported\"}",
                 response.getBody());
-    }
-
-    @Test
-    public void putWithdrawEmptyBody() {
-
     }
 
     @Test
